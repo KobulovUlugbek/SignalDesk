@@ -1,0 +1,20 @@
+services:
+  signaldesk:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      APP_NAME: SignalDesk Studio
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: "${APP_KEY:?Set APP_KEY in .env after npm run setup}"
+      APP_URL: "http://localhost:8080"
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    volumes:
+      - signaldesk_db:/var/www/html/database
+    restart: unless-stopped
+
+volumes:
+  signaldesk_db:

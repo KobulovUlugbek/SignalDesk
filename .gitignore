@@ -1,0 +1,17 @@
+/vendor/
+/node_modules/
+/.env
+/.phpunit.result.cache
+/.phpunit-watcher.yml
+/public/build/
+/public/hot
+/storage/*.key
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/database/*.sqlite
+!/database/.gitkeep
+.DS_Store
+.idea/
+.vscode/

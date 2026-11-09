@@ -1,0 +1,20 @@
+import { useEffect, useState } from 'react';
+import { Code2, ExternalLink, Lock, Moon, SlidersHorizontal, Sun, Users2 } from 'lucide-react';
+import { api } from '../lib/api';
+import type { User } from '../lib/types';
+import { Avatar, Badge, ErrorBanner, Field, PaneHeader } from '../components/Ui';
+
+type Props = { user: User; team: User[]; theme: 'light' | 'dark'; setTheme: (theme: 'light' | 'dark') => void; onProfile: (user: User) => void; notify: (s: string) => void };
+export default function Settings({ user, team, theme, setTheme, onProfile, notify }: Props) {
+  const [name, setName] = useState(user.name);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  useEffect(() => setName(user.name), [user.name]);
+  const save = async (event: React.FormEvent) => { event.preventDefault(); setBusy(true); setError(''); try { onProfile(await api.profile(name)); notify('Profil aktualisiert'); } catch (e) { setError(e instanceof Error ? e.message : 'Aktualisierung fehlgeschlagen'); } finally { setBusy(false); } };
+  return <><PaneHeader eyebrow="WORKSPACE / PREFERENCES" title="Einstellungen & Team" sub="Verwalte dein Profil und die Darstellung deines Workspaces." />
+    <div className="settings-grid"><section className="panel settings-card"><div className="panel-heading"><div><span className="section-overline">ACCOUNT</span><h3>Mein Profil</h3><p>Deine aktuellen Anmeldedaten</p></div><SlidersHorizontal size={20} /></div><div className="profile-hero"><Avatar name={user.name} size="large" /><div><strong>{user.name}</strong><span>{user.email}</span><Badge tone="resolved">{user.role === 'admin' ? 'Administrator' : user.role === 'agent' ? 'Support Agent' : 'Viewer'}</Badge></div></div><form onSubmit={save} className="form-stack">{error && <ErrorBanner message={error} />}<Field label="Anzeigename"><input minLength={2} required value={name} onChange={(e) => setName(e.target.value)} /></Field><Field label="E-Mail-Adresse"><input disabled value={user.email} /></Field><button className="btn btn-primary" disabled={busy || name === user.name}>Profil speichern</button></form></section>
+      <section className="panel settings-card"><div className="panel-heading"><div><span className="section-overline">APPEARANCE</span><h3>Darstellung</h3><p>Optimiere dein Arbeitsumfeld</p></div><Sun size={20} /></div><div className="theme-choices"><button className={theme === 'light' ? 'theme-option selected' : 'theme-option'} onClick={() => setTheme('light')}><span className="theme-preview theme-preview-light"><span /></span><strong><Sun size={15} /> Hell</strong></button><button className={theme === 'dark' ? 'theme-option selected' : 'theme-option'} onClick={() => setTheme('dark')}><span className="theme-preview theme-preview-dark"><span /></span><strong><Moon size={15} /> Dunkel</strong></button></div><div className="settings-info"><Lock size={18} /><div><strong>Datenschutz by Design</strong><p>Geschützte Endpunkte, CSRF-Prüfung und rollenbasierte Rechte.</p></div></div></section></div>
+    <section className="panel settings-card team-panel"><div className="panel-heading"><div><span className="section-overline">ORGANIZATION</span><h3>Workspace-Team</h3><p>Teammitglieder und ihre Zugriffsrechte</p></div><Users2 size={20} /></div><div className="settings-team-list">{team.map((member) => <div key={member.id}><Avatar name={member.name} /><div><strong>{member.name}</strong><span>{member.email}</span></div><Badge tone={member.role === 'admin' ? 'medium' : member.role === 'agent' ? 'resolved' : 'open'}>{member.role === 'admin' ? 'Admin' : member.role === 'agent' ? 'Agent' : 'Viewer'}</Badge></div>)}</div></section>
+    <div className="settings-footnote"><Code2 size={19} /><div><strong>Über SignalDesk Studio</strong><p>Ein Bewerbungsprojekt mit Laravel, React, TypeScript und einer echten API. Sämtliche Kundendaten sind fiktiv.</p></div><a href="https://ulugbek-kobulov.com" rel="noreferrer" target="_blank">Portfolio <ExternalLink size={14} /></a></div>
+  </>;
+}
