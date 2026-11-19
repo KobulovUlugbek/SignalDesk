@@ -116,9 +116,8 @@ Für `APP_KEY` kann nach lokalem Composer-Setup `php artisan key:generate --show
 
 1. Projekt lokal installieren, alle Views und Änderungen prüfen und Tests ausführen.
 2. Eigenes GitHub-Repository erstellen und den Quellcode pushen. Keine `.env`, keine Datenbankdatei, keine Zugangsdaten aus Produktion committen.
-3. Tim Geisendörfer auf GitHub unter **`@geisi`** zum Repository einladen.
-4. Repo-Link im Bewerbungsformular eintragen und optional eine abgesicherte Online-Demo ergänzen.
-5. Im Gespräch Laravel-Routen, FormRequests, Workflow-Service, Automationsregel und UI-Code erläutern und eine kleine Änderung live vorführen können.
+3. Repo-Link im Bewerbungsformular eintragen und optional eine abgesicherte Online-Demo ergänzen.
+4. Im Gespräch Laravel-Routen, FormRequests, Workflow-Service, Automationsregel und UI-Code erläutern und eine kleine Änderung live vorführen können.
 
 ## 7. KI-Workflow, Entscheidungen und Grenzen
 
